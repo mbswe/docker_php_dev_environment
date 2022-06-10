@@ -1,0 +1,5 @@
+www/**
+!www/.gitkeep
+
+data/db_dumps/**
+!data/db_dumps/.gitkeep

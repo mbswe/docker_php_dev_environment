@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: config/nginx/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./www:/var/www/html
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  php-fpm:
+    container_name: php${PHP_VERSION}
+    build:
+      context: .
+      dockerfile: config/php/${PHP_VERSION}/Dockerfile
+    volumes:
+      - ./www:/var/www/html
+      - ./config/php/${PHP_VERSION}/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./config/php/${PHP_VERSION}/fpm.conf:/usr/local/etc/php-fpm.d/xcustom.conf
+  database:
+    container_name: database_${DB_TYPE}_${DB_VERSION}
+    build:
+      context: .
+      dockerfile: config/database/${DB_TYPE}/${DB_VERSION}/Dockerfile
+    ports:
+      - ${DB_PORT}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+    volumes:
+      - db:/var/lib/mysql
+  mailhog:
+    container_name: mailhog
+    build:
+      context: .
+      dockerfile: config/mailhog/Dockerfile
+    logging:
+      driver: 'none'
+    ports:
+      - ${MAILHOG_SMTP_PORT}:1025
+      - ${MAILHOG_WEBUI_PORT}:8025
+volumes:
+  db:
+    name: ${COMPOSE_PROJECT_NAME}_${DB_TYPE}_${DB_VERSION}
