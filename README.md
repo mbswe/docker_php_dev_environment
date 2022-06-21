@@ -5,6 +5,6 @@ Simple PHP dev environment
 
 ## Usage
 
-When making changes to ```.env``` you need to rebuild the images bewfore starting.
+When making changes to ```.env``` you need to rebuild the images before starting.
 
 Run ```make help``` for help
