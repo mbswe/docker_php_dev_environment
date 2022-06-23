@@ -9,7 +9,6 @@ help:
 	@echo "Commands:"
 	@echo "  help                   This help"
 	@echo "  composer               Run composer              eg. make composer require laravel/framework"
-	@echo "  artisan                Laravel artisan           eg. make artisan make:controller UserController"
 	@echo "  phpversion             Print PHP version"
 	@echo "  build                  Build environment"
 	@echo "  start                  Start environment"
@@ -18,9 +17,6 @@ help:
 	@echo "  resume                 Resume environment"
 	@echo "  mysqldump              Dump database"
 	@echo "  mysqlrestore           Restore databasedump"
-
-artisan:
-	docker exec ${COMPOSE_PROJECT_NAME}_php_$(PHP_VERSION) php artisan $(filter-out $@,$(MAKECMDGOALS))
 
 composer:
 	@docker exec ${COMPOSE_PROJECT_NAME}_php_$(PHP_VERSION) composer $(filter-out $@,$(MAKECMDGOALS))
